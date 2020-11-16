@@ -12,6 +12,8 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '8'
+      - name: Build apk
+        run: ./gradlew assembleRelease --stacktrace
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
         id: sign_app
