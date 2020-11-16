@@ -41,6 +41,7 @@ jobs:
         with:
           tag_name: ${{ steps.tagger.outputs.newTag }}
           release_name: ${{ steps.tagger.outputs.newTag }}
+          owner: XiangRongLin
           repo: NewPipe-nightly
 
       - uses: actions/upload-release-asset@v1
