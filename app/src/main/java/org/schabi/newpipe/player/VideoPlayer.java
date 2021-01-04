@@ -19,6 +19,10 @@
 
 package org.schabi.newpipe.player;
 
+import static org.schabi.newpipe.player.helper.PlayerHelper.formatSpeed;
+import static org.schabi.newpipe.player.helper.PlayerHelper.getTimeString;
+import static org.schabi.newpipe.util.AnimationUtils.animateView;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -33,9 +37,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
 import android.os.Handler;
-import androidx.preference.PreferenceManager;
 import android.util.Log;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +50,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
-
+import androidx.preference.PreferenceManager;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
@@ -60,7 +62,8 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SubtitleView;
 import com.google.android.exoplayer2.video.VideoListener;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.schabi.newpipe.R;
 import org.schabi.newpipe.extractor.MediaFormat;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
@@ -71,13 +74,6 @@ import org.schabi.newpipe.player.resolver.MediaSourceTag;
 import org.schabi.newpipe.player.resolver.VideoPlaybackResolver;
 import org.schabi.newpipe.util.AnimationUtils;
 import org.schabi.newpipe.views.ExpandableSurfaceView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.schabi.newpipe.player.helper.PlayerHelper.formatSpeed;
-import static org.schabi.newpipe.player.helper.PlayerHelper.getTimeString;
-import static org.schabi.newpipe.util.AnimationUtils.animateView;
 
 /**
  * Base for <b>video</b> players.
@@ -917,7 +913,7 @@ public abstract class VideoPlayer extends BasePlayer
             return;
         }
 
-        final float scaleFrom = goneOnEnd ? 1f : 1f;
+        final float scaleFrom = 1f;
         final float scaleTo = goneOnEnd ? 1.8f : 1.4f;
         final float alphaFrom = goneOnEnd ? 1f : 0f;
         final float alphaTo = goneOnEnd ? 0f : 1f;

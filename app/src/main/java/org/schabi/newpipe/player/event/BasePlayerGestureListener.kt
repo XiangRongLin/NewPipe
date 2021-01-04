@@ -222,10 +222,7 @@ abstract class BasePlayerGestureListener(
             return true
         }
 
-        return if (playerImpl.popupPlayerSelected())
-            onDownInPopup(e)
-        else
-            true
+        return !playerImpl.popupPlayerSelected() && onDownInPopup(e)
     }
 
     private fun onDownInPopup(e: MotionEvent): Boolean {
