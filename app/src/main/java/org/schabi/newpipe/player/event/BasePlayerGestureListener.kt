@@ -273,6 +273,8 @@ abstract class BasePlayerGestureListener(
             playerImpl.updateScreenSize()
             playerImpl.checkPopupPositionBounds()
             playerImpl.updatePopupSize(playerImpl.screenWidth.toInt(), -1)
+        } else if (false && playerImpl.popupPlayerSelected()) {
+
         }
     }
 
