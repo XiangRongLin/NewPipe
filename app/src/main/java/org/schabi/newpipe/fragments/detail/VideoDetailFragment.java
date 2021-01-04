@@ -1,5 +1,14 @@
 package org.schabi.newpipe.fragments.detail;
 
+import static android.text.TextUtils.isEmpty;
+import static org.schabi.newpipe.extractor.StreamingService.ServiceInfo.MediaCapability.COMMENTS;
+import static org.schabi.newpipe.extractor.stream.StreamExtractor.NO_AGE_LIMIT;
+import static org.schabi.newpipe.player.helper.PlayerHelper.globalScreenOrientationLocked;
+import static org.schabi.newpipe.player.helper.PlayerHelper.isClearingQueueConfirmationRequired;
+import static org.schabi.newpipe.player.playqueue.PlayQueueItem.RECOVERY_UNSET;
+import static org.schabi.newpipe.util.AnimationUtils.animateView;
+import static org.schabi.newpipe.util.ExtractorHelper.showMetaInfoInTextView;
+
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -32,7 +41,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +54,6 @@ import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
@@ -56,7 +63,19 @@ import com.google.android.material.tabs.TabLayout;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
+import icepick.State;
+import io.noties.markwon.Markwon;
+import io.noties.markwon.linkify.LinkifyPlugin;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import org.schabi.newpipe.App;
 import org.schabi.newpipe.R;
 import org.schabi.newpipe.ReCaptchaActivity;
@@ -105,30 +124,6 @@ import org.schabi.newpipe.util.ShareUtils;
 import org.schabi.newpipe.util.ThemeHelper;
 import org.schabi.newpipe.views.AnimatedProgressBar;
 import org.schabi.newpipe.views.LargeTextMovementMethod;
-
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import icepick.State;
-import io.noties.markwon.Markwon;
-import io.noties.markwon.linkify.LinkifyPlugin;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-
-import static android.text.TextUtils.isEmpty;
-import static org.schabi.newpipe.extractor.StreamingService.ServiceInfo.MediaCapability.COMMENTS;
-import static org.schabi.newpipe.extractor.stream.StreamExtractor.NO_AGE_LIMIT;
-import static org.schabi.newpipe.player.helper.PlayerHelper.globalScreenOrientationLocked;
-import static org.schabi.newpipe.player.helper.PlayerHelper.isClearingQueueConfirmationRequired;
-import static org.schabi.newpipe.player.playqueue.PlayQueueItem.RECOVERY_UNSET;
-import static org.schabi.newpipe.util.AnimationUtils.animateView;
-import static org.schabi.newpipe.util.ExtractorHelper.showMetaInfoInTextView;
 
 public final class VideoDetailFragment
         extends BaseStateFragment<StreamInfo>
@@ -1675,6 +1670,10 @@ public final class VideoDetailFragment
                 NewPipe.getNameOfService(serviceId), url, errorId);
 
         return true;
+    }
+
+    @Override
+    public void hideLoading() {
     }
 
     private void updateProgressInfo(@NonNull final StreamInfo info) {
