@@ -44,6 +44,12 @@ public class LargeTextMovementMethod extends LinkMovementMethod {
         this.direction = dirToRelative(dir);
     }
 
+
+    @Override
+    protected boolean pageDown(TextView widget, Spannable buffer) {
+        return super.pageDown(widget, buffer);
+    }
+
     @Override
     protected boolean handleMovementKey(final TextView widget,
                                         final Spannable buffer,
