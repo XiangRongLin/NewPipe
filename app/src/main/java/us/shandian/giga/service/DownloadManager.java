@@ -1,20 +1,19 @@
 package us.shandian.giga.service;
 
+import static org.schabi.newpipe.BuildConfig.DEBUG;
+
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import us.shandian.giga.get.DownloadMission;
 import us.shandian.giga.get.FinishedMission;
 import us.shandian.giga.get.Mission;
@@ -22,8 +21,6 @@ import us.shandian.giga.get.sqlite.FinishedMissionStore;
 import us.shandian.giga.io.StoredDirectoryHelper;
 import us.shandian.giga.io.StoredFileHelper;
 import us.shandian.giga.util.Utility;
-
-import static org.schabi.newpipe.BuildConfig.DEBUG;
 
 public class DownloadManager {
     private static final String TAG = DownloadManager.class.getSimpleName();
@@ -573,7 +570,7 @@ public class DownloadManager {
                 if (fakeTotal > 0) fakeTotal++;
 
                 fakeTotal += finished.size();
-                if (finished.size() > 0) fakeTotal++;
+                if (!finished.isEmpty()) fakeTotal++;
 
                 ArrayList<Object> list = new ArrayList<>(fakeTotal);
                 if (pending.size() > 0) {
