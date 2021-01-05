@@ -225,6 +225,10 @@ abstract class BasePlayerGestureListener(
         return !playerImpl.popupPlayerSelected() && onDownInPopup(e)
     }
 
+    override fun onShowPress(e: MotionEvent?) {
+        super.onShowPress(e)
+    }
+
     private fun onDownInPopup(e: MotionEvent): Boolean {
         // Fix popup position when the user touch it, it may have the wrong one
         // because the soft input is visible (the draggable area is currently resized).
