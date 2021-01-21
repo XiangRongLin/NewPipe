@@ -176,10 +176,6 @@ public final class CheckForNewAppVersion {
 
         // Check if user has enabled/disabled update checking
         // and if the current apk is a github one or not.
-        if (!prefs
-            .getBoolean(app.getString(R.string.update_app_key), true) || !isGithubApk(app)) {
-            return null;
-        }
 
         final String expire = prefs.getString(app.getString(R.string.update_expire_date_key), null);
         if (expire != null && LocalDateTime.from(DateTimeFormatter.RFC_1123_DATE_TIME.parse(expire))
